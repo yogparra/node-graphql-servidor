@@ -1,0 +1,47 @@
+    type Cliente { 
+        id: ID
+        nombre: String
+        apellido: String
+        empresa: String
+        email: String
+        edad: Int
+        tipo: TipoClienteEnum
+        pedidos: [Pedido]
+    }
+
+    type Pedido {
+        producto: String
+        presio: Int
+    }
+
+    enum TipoClienteEnum {
+        BASICO
+        PREMIUM
+    }
+
+    type Query {
+        getCliente (id: ID): Cliente
+    }
+
+    input PedidoInput {
+        producto: String
+        presio: Int
+    }
+
+    input ClienteInput {
+        id: ID
+        nombre: String!
+        apellido: String!
+        empresa: String!
+        email: String!
+        edad: Int!
+        tipo: TipoClienteEnum!
+        pedidos: [PedidoInput]!
+    }
+
+    """ Mutation para crear nuevos clientes """
+    # Nombre del resolvers (Input con datos): valor que retorna
+    type Mutation {
+        """ Permite crear nuevos clientes """
+        crearCliente (input: ClienteInput): Cliente
+    }
