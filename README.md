@@ -136,3 +136,43 @@ docker logs mongo -f
 docker run -d --name mongo -p 27018:27017 -v /var/mongo/data:/data/db mongo
 docker run -d --restart=unless-stopped --name mongo -p 27018:27017 -v /var/mongo/data:/data/db mongo
 ```
+
+
+# Creando Aleas GraphiQL
+```
+query {
+  aleas_uno: getCliente (id: "5c6abd01a109a319e8083928"){
+    nombre
+    apellido
+    email  
+  }
+  
+  aleas_dos: getCliente (id: "5ca65fa1763540297024f64a"){
+    nombre
+    apellido
+    email  
+  }
+}
+```
+
+
+# Creando Fragment GraphiQL
+```
+query {
+  aleas_uno: getCliente (id: "5c6abd01a109a319e8083928"){
+    ...clientes
+    id
+  }
+  
+  aleas_dos: getCliente (id: "5ca65fa1763540297024f64a"){
+    ...clientes
+    tipo
+  }
+}
+
+fragment clientes on Cliente {
+   nombre
+   apellido
+   email  
+}
+```

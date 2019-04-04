@@ -1,41 +1,24 @@
 import mongoose from 'mongoose';
 import { Clientes } from './db';
-//import { resolve } from 'url';
-//import { rejects } from 'assert';
-
-
-/*
-class Cliente {
-    constructor(id, {nombre, apellido, empresa, email, edad, tipo, pedidos} ){
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.empresa = empresa;
-        this.email = email;
-        this.edad = edad;
-        this.tipo = tipo;
-        this.pedidos = pedidos;
-    }
-}
-*/
-
-//const clientesDB = {};
 
 export const resolvers = {
     Query: {
-        getCliente: ({ id }) => {
-            return new Cliente(id, clientesDB[id]);
+
+        getClientes : (root, {limite}) => { 
+            return Clientes.find({}).limit(limite)
+        },
+
+        getCliente: (root, {id}) => {
+            return new Promise ((resolve, Object) => {
+                Clientes.findById(id, (error, cliente) => {
+                    if(error) rejects(error)
+                    else resolve(cliente)
+                });
+            });
         }        
     },
     Mutation: {
         crearCliente: (root, {input} ) => {
-
-            /*
-            const id = require('crypto').randomBytes(10).toString('hex');
-            clientesDB[id] = input;
-            return new Cliente(id, input);
-            */
-
             const nuevoCliente = new Clientes({
                 nombre: input.nombre,
                 apellido: input.apellido,
@@ -43,7 +26,7 @@ export const resolvers = {
                 email: input.email,
                 edad: input.edad,
                 tipo: input.tipo,
-                pedidos: input.pedidos
+                pedidos: input.pedidos 
             });
             nuevoCliente.id = nuevoCliente._id;
 
@@ -52,6 +35,24 @@ export const resolvers = {
                     if(error) rejects(error)
                     else resolve(nuevoCliente)
                 });
+            });
+        },
+
+        actualizarCliente: (root, {input}) => {
+            return new Promise((resolve, Object) => {
+                Clientes.findOneAndUpdate( {_id: input.id}, input, {new: true}, (error, cliente) => {
+                    if(error) rejects(error)
+                    else resolve(cliente)
+                });
+            });
+        },
+
+        eliminarCliente: (root, {id}) => {
+            return new Promise((resolve, Object) => {
+                    Clientes.findOneAndRemove( {_id : id }, (error) => {
+                        if(error) rejects(error)
+                        else resolve("Se eliminó correctamente")
+                    })
             });
         }
     }

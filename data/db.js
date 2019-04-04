@@ -2,7 +2,11 @@ import mongoose from 'mongoose';
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://localhost:27018/cliente' ,{useNewUrlParser: true} );
+//Docker
+//mongoose.connect('mongodb://localhost:27018/cliente' ,{useNewUrlParser: true} );
+
+//Local
+mongoose.connect('mongodb://localhost:27017/cliente' ,{useNewUrlParser: true} );
 
 const clientesSchema = new mongoose.Schema({
     nombre: String,
