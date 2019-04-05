@@ -176,3 +176,9 @@ fragment clientes on Cliente {
    email  
 }
 ```
+
+
+# Mongo
+```
+> mongod
+```
